@@ -1,0 +1,30 @@
+the structrue of a resource file:
+.xml:
+<resource id="id">
+    <prefix dir="/prefix">
+        <file [alias="filename"]>...</file>
+        <directory [contained="all|empty" ]>...</directory>
+    </prefix>
+</resource>
+
+before using the resource, we should include the common
+
+the structure of a compiled resource file:
+.cpp:
+namespace SRecourceData {
+    namespace ${id} {
+        const char data[SIZE] = {
+            0x.., ...
+        };
+        boost::property_tree::basic_ptree<std::string, std::pair<const char *, int>> pt;
+        class Dummy {
+        public:
+            Dummy() {
+                // add properties here
+                // eg. pt.put(boost::property_tree::path(":/dir1/dir2/dir3/filename", '/'), std::make_pair<const char *, int>(address, size));
+                resource_pt.add_child(boost::property_tree::path("${id}", '/'), pt);
+            }
+        } dummy;
+    }
+}
+
